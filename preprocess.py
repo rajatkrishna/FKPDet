@@ -14,7 +14,7 @@ def show_keypoints(image, key_pts):
     plt.imshow(image)
     plt.scatter(key_pts[:, 0], key_pts[:, 1], s = 20, marker = '.', c = 'm')
 
-class facialDataset(Dataset):
+class FacialDataset(Dataset):
     def __init__(self, csv_file, root_dir, transform = None):
         #args: path to csv file with keypoint data, directory with images, transform to be applied
         self.key_pts_frame = pd.read_csv(csv_file)

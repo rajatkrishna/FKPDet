@@ -18,8 +18,8 @@ test_dataset = FacialDataset(csv_file='/data/test_frames_keypoints.csv', root_di
 print('Number of images: ', len(transformed_dataset))
 
 batch_size = 10
-train_loader = DataLoader(transformed_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
-test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+train_loader = DataLoader(transformed_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=0)
 
 def show_all_keypoints(image, predicted_key_pts, gt_pts=None):
 #   show image with predicted keypoints
@@ -29,7 +29,7 @@ def show_all_keypoints(image, predicted_key_pts, gt_pts=None):
         plt.scatter(gt_pts[:, 0], gt_pts[:, 1], s=20, marker='.', c='g')
 
 criterion = nn.SmoothL1Loss()
-optimizer = optim.Adam(net.parameters(), lr = 0.005)
+optimizer = optim.Adam(net.parameters(), lr = 0.003)
 
 def train_net(n_epochs):
     net.train()
@@ -56,5 +56,9 @@ def train_net(n_epochs):
                 running_loss = 0.0
     print('Finished Training')
 
-n_epochs = 15
+n_epochs = 20
 train_net(n_epochs)
+model_dir = 'saved_models/'
+model_name = 'convnet.pt'
+
+torch.save(net.state_dict(), model_dir+model_name)
